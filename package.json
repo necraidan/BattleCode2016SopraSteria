@@ -9,6 +9,7 @@
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-filesize": "0.0.6",
+    "gulp-uglify": "^1.5.1",
     "gulp-zip": "^3.1.0",
     "yargs": "^3.32.0"
   },
