@@ -16,24 +16,24 @@ var README_CONTENT = 'The Code Awakens\r\n'+
 +'Pour pouvoir l\'exécuter :\r\n$ node ';
 
 gulp.task('create', function(){
-  if(yarg.name){
-    fs.access(yarg.name, fs.R_OK | fs.W_OK, function (err) {
+  if(yarg.ex){
+    fs.access(yarg.ex, fs.R_OK | fs.W_OK, function (err) {
       if(!err){
         console.log('Folder already exists');
       }else{
-        fs.mkdir(yarg.name, function(err){
+        fs.mkdir(yarg.ex, function(err){
           if(err) throw err;
 
-          fs.writeFile(yarg.name+'/'+yarg.name+'.js', DUMMY_JS, function(err){
+          fs.writeFile(yarg.ex+'/'+yarg.ex+'.js', DUMMY_JS, function(err){
             if(err) throw err;
 
-            console.log('Write of '+yarg.name+'/'+yarg.name+'.js done.');
+            console.log('Write of '+yarg.ex+'/'+yarg.ex+'.js done.');
           });
 
-          fs.appendFile(yarg.name+'/'+README_NAME, README_CONTENT+yarg.name+'.js', function(err){
+          fs.appendFile(yarg.ex+'/'+README_NAME, README_CONTENT+yarg.ex+'.js', function(err){
             if(err) throw err;
 
-            console.log('Write of '+yarg.name+'/'+README_NAME+' done.');
+            console.log('Write of '+yarg.ex+'/'+README_NAME+' done.');
           });
         });
       }
@@ -50,7 +50,7 @@ gulp.task('zip', function(){
           .pipe(zip(zipName))
           .pipe(gulp.dest('zip'));
   }else{
-    console.log('ERROR NOT --exercice argument');
+    console.log('ERROR NOT --ex argument');
   }
 });
 
@@ -61,7 +61,11 @@ gulp.task('uglify', function(){
 });
 
 gulp.task('size', function(){
-  return gulp.src('dist/archive.zip').pipe(size());
+  if(yarg.ex){
+    gulp.src('zip/'+TEAM_NAME+'_'+DEV_NAME+'_'+yarg.ex+'.zip').pipe(size());
+  }else{
+    console.log('ERROR NOT --ex argument');
+  }
 });
 
 gulp.task('final', ['zip']);
